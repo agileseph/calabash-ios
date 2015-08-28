@@ -875,10 +875,17 @@ class Calabash::Cucumber::Launcher
   end
 
   # @!visibility private
+  def simulator_ios_sdk?
+    value = ENV['IOS_SDK']
+    return false if value.nil?
+    value.downcase.include?('simulator')
+  end
+
+  # @!visibility private
   def simulator_target?(launch_args={})
     value = ENV['DEVICE_TARGET'] || launch_args[:device_target]
     return false if value.nil?
-    value.downcase.include?('simulator')
+    value.downcase.include?('simulator') || simulator_ios_sdk?
   end
 
   # @!visibility private
